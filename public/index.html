@@ -1,45 +1,111 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="h-full">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Enhanced Dependency Visualizer</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      body,
-      html {
-        margin: 0;
-        padding: 0;
-        /* width: 100%;
-            height: 100%; /
-            / overflow: hidden; */
+      .node circle {
+        cursor: pointer;
       }
-      #chart {
-        width: 80%;
-        height: 10px;
-        position: relative;
-      }
-      #debug {
-        position: absolute;
-        bottom: 10px;
-        left: 10px;
-        background: rgba(255, 255, 255, 0.8);
-        padding: 5px;
-      }
-      .tooltip {
-        position: absolute;
-        text-align: center;
-        padding: 5px;
+      .node text {
         font: 12px sans-serif;
+      }
+      .link {
+        fill: none;
+        stroke: #ccc;
+        stroke-width: 2px;
+      }
+      #tooltip {
+        position: absolute;
         background: white;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        pointer-events: none;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 10px;
+        display: none;
       }
     </style>
   </head>
-  <body>
-    <div id="chart"></div>
-    <!-- <div id="debug"></div> -->
-    <script src="visualizer.js"></script>
+  <body class="h-full bg-gray-100">
+    <div class="min-h-full">
+      <nav class="bg-gray-800">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="flex h-16 items-center justify-between">
+            <div class="flex items-center">
+              <div class="flex-shrink-0">
+                <img
+                  class="h-8 w-8"
+                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                  alt="Your Company"
+                />
+              </div>
+              <div class="ml-10 flex items-baseline space-x-4">
+                <a href="#" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium"
+                  >Dependency Visualizer</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <main>
+        <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+          <div class="px-4 py-6 sm:px-0">
+            <div id="controls" class="flex flex-wrap gap-4 mb-6">
+              <button
+                id="zoomIn"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Zoom In
+              </button>
+              <button
+                id="zoomOut"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Zoom Out
+              </button>
+              <button
+                id="resetZoom"
+                class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Reset
+              </button>
+              <label class="inline-flex items-center">
+                <input
+                  type="checkbox"
+                  id="devDependencies"
+                  class="form-checkbox h-5 w-5 text-blue-600"
+                />
+                <span class="ml-2 text-gray-700">Show Dev Dependencies</span>
+              </label>
+              <div class="flex items-center">
+                <label for="depthControl" class="mr-2 text-gray-700">Depth:</label>
+                <input
+                  type="number"
+                  id="depthControl"
+                  min="1"
+                  max="10"
+                  value="2"
+                  class="form-input mt-1 block w-20 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                />
+              </div>
+              <input
+                type="text"
+                id="search"
+                placeholder="Search packages"
+                class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              />
+            </div>
+            <div id="chart" class="bg-white overflow-hidden shadow-xl sm:rounded-lg"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <div id="tooltip"></div>
+
+    <script src="./visualizer.js"></script>
   </body>
 </html>
